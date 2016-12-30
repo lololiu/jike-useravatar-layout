@@ -21,8 +21,8 @@ public class PullToRefeshLayout extends LinearLayout {
 
     public PullToRefeshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mHeaderOffsetTop = ScreenUtil.dip2px(context, 100);
-        mHeaderOffsetBottom = ScreenUtil.dip2px(context, 100);
+        mHeaderOffsetTop = ScreenUtil.dip2px(context, 50);
+        mHeaderOffsetBottom = ScreenUtil.dip2px(context, 50);
     }
 
     @Override
