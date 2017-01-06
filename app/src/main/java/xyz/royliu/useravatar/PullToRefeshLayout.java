@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 /**
- * Created by liulou on 2016/12/28.
+ * Created by Roy on 2016/12/28.
  * desc:
  */
 
@@ -19,10 +19,13 @@ public class PullToRefeshLayout extends LinearLayout {
 
     private float mStratY;
 
+
+    private OnPullRefreshListener mListener;
+
     public PullToRefeshLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mHeaderOffsetTop = ScreenUtil.dip2px(context, 50);
-        mHeaderOffsetBottom = ScreenUtil.dip2px(context, 50);
+        mHeaderOffsetTop = ScreenUtil.dip2px(context, 100);
+        mHeaderOffsetBottom = ScreenUtil.dip2px(context, 100);
     }
 
     @Override
@@ -59,27 +62,43 @@ public class PullToRefeshLayout extends LinearLayout {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mStratY = event.getY();
-                Log.d(TAG, "onTouchEvent: start:" + mStratY);
                 return true;
             case MotionEvent.ACTION_MOVE:
                 float mCurrentY = event.getY();
-                Log.d(TAG, "onTouchEvent: mHeaderOffsetTop-->"+mHeaderOffsetTop);
-                if ((mCurrentY - mStratY) / 2 > mHeaderOffsetTop) {
-                    getChildAt(0).animate().translationY(0);
-                    getChildAt(1).animate().translationY(0);
-                } else {
-                    getChildAt(0).setTranslationY((mCurrentY - mStratY) / 2);
-                    getChildAt(1).setTranslationY((mCurrentY - mStratY));
+                if (mCurrentY - mStratY < 0) {
+                    return true;
                 }
-                Log.d(TAG, "onTouchEvent: " + (mCurrentY - mStratY));
+                if ((mCurrentY - mStratY) / 4 > mHeaderOffsetTop) {
+//                    getChildAt(0).animate().translationY(0);
+//                    getChildAt(1).animate().translationY(0);
+                } else {
+                    getChildAt(0).setTranslationY((mCurrentY - mStratY) / 4);
+                    getChildAt(1).setTranslationY((mCurrentY - mStratY) / 2);
+                    if (mListener != null) {
+                        mListener.onMoveY((mCurrentY - mStratY) / 2);
+                    }
+                }
                 return true;
             case MotionEvent.ACTION_UP:
                 getChildAt(0).animate().translationY(0);
                 getChildAt(1).animate().translationY(0);
+                if (mListener != null) {
+                    mListener.onMoveEnd();
+                }
                 return true;
             default:
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    public void setmListener(OnPullRefreshListener mListener) {
+        this.mListener = mListener;
+    }
+
+    interface OnPullRefreshListener {
+        void onMoveY(float distance);
+
+        void onMoveEnd();
     }
 }

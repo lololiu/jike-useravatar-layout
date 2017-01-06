@@ -38,6 +38,15 @@ public class ScreenUtil {
         return dm.heightPixels;
     }
 
+    public static int getScreenWidth(Context context){
+        if (null == context) {
+            return 0;
+        }
+        DisplayMetrics dm = new DisplayMetrics();
+        dm = context.getApplicationContext().getResources().getDisplayMetrics();
+        return dm.widthPixels;
+    }
+
     /**
      * 将px值转换为sp值，保证文字大小不变
      *            （DisplayMetrics类中属性scaledDensity）
