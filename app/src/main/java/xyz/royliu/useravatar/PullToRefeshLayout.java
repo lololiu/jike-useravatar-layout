@@ -18,8 +18,6 @@ public class PullToRefeshLayout extends LinearLayout {
     private int mHeaderOffsetBottom = 0;
 
     private float mStratY;
-
-
     private OnPullRefreshListener mListener;
 
     public PullToRefeshLayout(Context context, AttributeSet attrs) {
@@ -69,8 +67,7 @@ public class PullToRefeshLayout extends LinearLayout {
                     return true;
                 }
                 if ((mCurrentY - mStratY) / 4 > mHeaderOffsetTop) {
-//                    getChildAt(0).animate().translationY(0);
-//                    getChildAt(1).animate().translationY(0);
+
                 } else {
                     getChildAt(0).setTranslationY((mCurrentY - mStratY) / 4);
                     getChildAt(1).setTranslationY((mCurrentY - mStratY) / 2);

@@ -65,7 +65,6 @@ public class AvatarLayout extends RelativeLayout {
 
         mViewTrackController.init(mIvList);
 
-
         mPullLayout = (PullToRefeshLayout) getChildAt(0);
         mPullLayout.setmListener(new PullToRefeshLayout.OnPullRefreshListener() {
             @Override
@@ -89,7 +88,6 @@ public class AvatarLayout extends RelativeLayout {
     private class MyViewDragHelper extends ViewDragHelper.Callback {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            Log.d(TAG, "tryCaptureView: " + (child == circleImageView));
             if (child == circleImageView) {
                 circleImageView.stopAnimation();
                 return true;
@@ -104,30 +102,22 @@ public class AvatarLayout extends RelativeLayout {
 
         @Override
         public int clampViewPositionHorizontal(View child, int left, int dx) {
-            Log.d(TAG, "clampViewPositionHorizontal: " + left);
             return left;
         }
 
         @Override
         public int clampViewPositionVertical(View child, int top, int dy) {
-            Log.d(TAG, "clampViewPositionVertical: " + top);
             return top;
         }
 
         @Override
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
-//            if (releasedChild == circleImageView) {
-//                Log.d(TAG, "onViewReleased: " + mAvatarX + " " + mAvatarY);
-//                mDragHelper.settleCapturedViewAt(mAvatarX, mAvatarY);
-//                invalidate();
-//            }
             mViewTrackController.onRelease();
         }
 
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            Log.d(TAG, "onViewPositionChanged: dx:" + dx + " dy" + dy);
             mViewTrackController.setOtherVisiable(true);
             mViewTrackController.onTopViewPosChanged(left, top);
         }
